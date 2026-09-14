@@ -1,0 +1,12 @@
+{
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "tokensaver status --session-start"
+        }
+      ]
+    }
+  ]
+}
