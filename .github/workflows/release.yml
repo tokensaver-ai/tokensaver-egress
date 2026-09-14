@@ -1,0 +1,37 @@
+# Build wheel+sdist and attach to GitHub Release on tag v*.
+# Primary path (monorepo): scripts/sync-oss-egress.sh → public tokensaver-egress mirror.
+
+name: GitHub Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+      - "v*.*.*-*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build wheel + sdist
+        run: |
+          pip install build
+          python -m build
+
+      - name: Create or update GitHub Release with assets
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          makeLatest: true
+          generateReleaseNotes: true
+          tag: ${{ github.ref_name }}
+          artifacts: "dist/*.whl,dist/*.tar.gz"
