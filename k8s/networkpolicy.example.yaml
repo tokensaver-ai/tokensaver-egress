@@ -1,0 +1,45 @@
+# Example: force app pods through tokensaver-egress (anti-bypass sketch).
+#
+# Apply in the client namespace after deploying tokensaver-egress as a standalone pod.
+# Adjust labels/selectors to your workload.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: app-egress-via-tokensaver-proxy
+  namespace: agents
+spec:
+  podSelector:
+    matchLabels:
+      app: agent-workload
+  policyTypes:
+    - Egress
+  egress:
+  # DNS
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: UDP
+      port: 53
+  # Only allow HTTPS to the egress capture proxy (not direct internet)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: tokensaver-egress
+    ports:
+    - protocol: TCP
+      port: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tokensaver-egress
+  namespace: agents
+  labels:
+    app: tokensaver-egress
+spec:
+  selector:
+    app: tokensaver-egress
+  ports:
+  - name: proxy
+    port: 8888
+    targetPort: 8888
