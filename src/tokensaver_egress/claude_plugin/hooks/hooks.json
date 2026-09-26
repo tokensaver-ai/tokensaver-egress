@@ -1,0 +1,38 @@
+{
+  "description": "TokenSaver — session status + silent BusinessLoop reminders on /goal and Stop",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tokensaver status --session-start"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/remind-boucle.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "matcher": "goal",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/remind-boucle.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
