@@ -1,0 +1,18 @@
+{
+  "name": "tokensaver",
+  "owner": {
+    "name": "TokenSaver",
+    "url": "https://tokensaver.fr"
+  },
+  "metadata": {
+    "description": "TokenSaver Claude Code plugins — router, MCP, Flux IA"
+  },
+  "plugins": [
+    {
+      "name": "tokensaver-router",
+      "source": "./",
+      "description": "Route Claude Code through TokenSaver control plane",
+      "version": "0.3.0"
+    }
+  ]
+}
