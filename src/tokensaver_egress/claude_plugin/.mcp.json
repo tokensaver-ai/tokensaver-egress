@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "tokensaver-route-tools": {
+      "type": "http",
+      "url": "${TOKENSAVER_MCP_URL:-https://mcp.tokensaver.fr/mcp}",
+      "headers": {
+        "Authorization": "Bearer ${TOKENSAVER_API_KEY}"
+      }
+    },
+    "tokensaver-route-gateway": {
+      "type": "http",
+      "url": "${TOKENSAVER_GATEWAY_URL:-https://gateway.tokensaver.fr/mcp}",
+      "headers": {
+        "Authorization": "Bearer ${TOKENSAVER_API_KEY}",
+        "X-Tokensaver-Client": "claude-code-plugin/0.2"
+      }
+    }
+  }
+}
